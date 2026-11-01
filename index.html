@@ -1306,5 +1306,1420 @@ if(storageIssue){
     <div class="modalfoot"><button class="btn ghost" onclick="closeModal()">Позже</button><button class="btn primary" onclick="accountModal()">Начать настройку</button></div>`),180);
 }
 </script>
+
+
+<style id="infowallet-mobile-colors">
+/* Дополнительная адаптация без удаления существующих стилей. */
+:root {
+  --iw-accent: #a88aff;
+  --iw-accent-start: #9568ff;
+  --iw-accent-end: #7146df;
+  --iw-rgb: 168, 138, 255;
+  --iw-on-accent: #ffffff;
+  --iw-balance-start: #453087;
+  --iw-balance-end: #25204c;
+  --iw-balance-text: #e1d6f5;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-bottom: 110px;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+input,
+select,
+textarea {
+  max-width: 100%;
+}
+
+button,
+.btn,
+.navitem,
+.iconbtn {
+  transition:
+    background .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease,
+    color .2s ease,
+    transform .15s ease;
+}
+
+/* Цветовые поверхности. */
+body::before {
+  background:
+    radial-gradient(
+      ellipse at 85% 0%,
+      rgba(var(--iw-rgb), .14),
+      transparent 48%
+    ),
+    radial-gradient(
+      ellipse at 5% 55%,
+      rgba(var(--iw-rgb), .055),
+      transparent 45%
+    );
+}
+
+.logo {
+  background:
+    linear-gradient(
+      140deg,
+      var(--iw-accent-start),
+      var(--iw-accent-end)
+    );
+  color: var(--iw-on-accent);
+  box-shadow: 0 4px 22px rgba(var(--iw-rgb), .2);
+}
+
+.avatar {
+  background:
+    linear-gradient(
+      135deg,
+      var(--iw-accent-start),
+      var(--iw-accent-end)
+    );
+  color: var(--iw-on-accent);
+}
+
+.navitem.active {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(var(--iw-rgb), .19),
+      rgba(var(--iw-rgb), .045)
+    );
+  color: var(--iw-accent);
+}
+
+.card {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(var(--iw-rgb), .055),
+      transparent 70%
+    ),
+    var(--surface);
+}
+
+.balance-card {
+  background:
+    linear-gradient(
+      125deg,
+      var(--iw-balance-start),
+      var(--iw-balance-end) 65%,
+      #1b1a25
+    );
+  color: #fff;
+}
+
+.balance-card .muted,
+.balance-card small,
+.balance-card .eyebrow {
+  color: var(--iw-balance-text) !important;
+}
+
+.btn.primary {
+  background:
+    linear-gradient(
+      120deg,
+      var(--iw-accent-start),
+      var(--iw-accent-end)
+    );
+  border-color: rgba(var(--iw-rgb), .4);
+  color: var(--iw-on-accent);
+  box-shadow: 0 5px 25px rgba(var(--iw-rgb), .13);
+}
+
+.btn.pink {
+  background:
+    linear-gradient(
+      115deg,
+      var(--iw-accent-start),
+      var(--iw-accent-end)
+    );
+  color: var(--iw-on-accent);
+}
+
+.tx-icon,
+.goal-icon {
+  background: rgba(var(--iw-rgb), .1);
+  color: var(--iw-accent);
+}
+
+.tx-icon {
+  border-color: rgba(var(--iw-rgb), .14);
+}
+
+.badge:not(.warn) {
+  background: rgba(var(--iw-rgb), .12);
+  color: var(--iw-accent);
+}
+
+.notice:not(.warn):not(.danger) {
+  background: rgba(var(--iw-rgb), .055);
+}
+
+.progress i {
+  background:
+    linear-gradient(
+      90deg,
+      var(--iw-accent-end),
+      var(--iw-accent-start)
+    );
+}
+
+.author {
+  background: rgba(var(--iw-rgb), .035);
+}
+
+.message.user {
+  background: rgba(var(--iw-rgb), .17);
+}
+
+.empty .empty-icon {
+  color: var(--iw-accent);
+}
+
+.iw-purchase-card {
+  background:
+    linear-gradient(
+      130deg,
+      rgba(var(--iw-rgb), .11),
+      rgba(var(--iw-rgb), .025)
+    ),
+    var(--surface) !important;
+}
+
+/* Настройка палитры. */
+.iw-color-settings {
+  position: relative;
+  overflow: hidden;
+}
+
+.iw-color-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.iw-color-description {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.iw-color-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.iw-color-choice {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 0;
+  min-height: 94px;
+  padding: 13px 7px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.iw-color-choice:hover {
+  background: var(--surface2);
+}
+
+.iw-color-choice[aria-pressed="true"] {
+  border-color: var(--iw-accent);
+  background: rgba(var(--iw-rgb), .1);
+  color: var(--text);
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--iw-rgb), .14),
+    0 5px 20px rgba(var(--iw-rgb), .07);
+}
+
+.iw-color-preview {
+  display: block;
+  width: 31px;
+  height: 31px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 11px;
+  background:
+    linear-gradient(
+      135deg,
+      var(--swatch-start),
+      var(--swatch-end)
+    );
+  box-shadow: 0 4px 12px rgba(0,0,0,.12);
+}
+
+.iw-color-check {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--iw-accent);
+}
+
+.iw-theme-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.iw-theme-note .icon {
+  width: 17px;
+  height: 17px;
+}
+
+@media (hover: hover) {
+  .navitem:hover:not(.active) {
+    background: rgba(var(--iw-rgb), .055);
+    color: var(--text);
+  }
+}
+
+/* Планшеты и небольшие экраны. */
+@media (min-width: 721px) and (max-width: 1000px) {
+  .main {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .grid.two {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .grid.two:has(> .stat) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Телефон. */
+@media (max-width: 720px) {
+  :root {
+    --iw-mobile-radius: 21px;
+  }
+
+  .main {
+    padding:
+      calc(16px + env(safe-area-inset-top))
+      15px
+      calc(115px + env(safe-area-inset-bottom));
+  }
+
+  .topbar {
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+
+  .topbar-title {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .mobile-brand {
+    gap: 9px;
+    font-size: 21px;
+  }
+
+  .topbar-title > small {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 11px;
+  }
+
+  .top-actions {
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .iconbtn,
+  .avatar {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  h1 {
+    font-size: 25px;
+    line-height: 1.2;
+    letter-spacing: -.8px;
+    overflow-wrap: anywhere;
+  }
+
+  h2 {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+
+  h3 {
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .page {
+    min-width: 0;
+  }
+
+  .dashboard,
+  .grid.two,
+  .grid.three {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Доход и расход остаются двумя компактными карточками. */
+  .grid.two:has(> .stat) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .grid,
+  .stack {
+    gap: 14px;
+  }
+
+  .card {
+    padding: 19px 17px;
+    border-radius: var(--iw-mobile-radius);
+  }
+
+  .cardhead {
+    gap: 10px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .cardhead > div:first-child {
+    min-width: 0;
+  }
+
+  .cardhead > .iconbtn {
+    margin-left: auto;
+  }
+
+  .sectionhead {
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+
+  .sectionhead > div {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .sectionhead small {
+    display: block;
+    margin-top: 5px;
+    line-height: 1.45;
+  }
+
+  .sectionhead > .btn {
+    flex-shrink: 0;
+    padding: 10px 13px;
+    font-size: 13px;
+  }
+
+  .balance-card {
+    padding: 24px 20px;
+    border-radius: 24px;
+  }
+
+  .balance-number {
+    font-size: clamp(31px, 9vw, 43px);
+    line-height: 1.2;
+    margin-top: 12px;
+    margin-bottom: 24px;
+  }
+
+  .balance-free {
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 12px;
+  }
+
+  .balance-free strong {
+    font-size: clamp(21px, 6vw, 27px);
+    overflow-wrap: anywhere;
+    margin-left: auto;
+  }
+
+  .quick {
+    gap: 10px;
+    margin-top: 21px;
+  }
+
+  .quick .btn {
+    min-height: 49px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .stat {
+    padding: 16px 13px;
+  }
+
+  .stat > .row {
+    align-items: flex-start;
+    gap: 7px;
+  }
+
+  .stat .muted {
+    font-size: 12px;
+  }
+
+  .stat-icon {
+    width: 29px;
+    height: 29px;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+
+  .stat-icon .icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .stat .amount {
+    font-size: clamp(17px, 4.7vw, 23px);
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+    margin-top: 13px;
+  }
+
+  .btn {
+    min-height: 48px;
+    border-radius: 14px;
+  }
+
+  .btn.small {
+    min-height: 44px;
+    padding: 10px 13px;
+    font-size: 12px;
+  }
+
+  .link {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Не вызывает автоматическое увеличение страницы на iPhone. */
+  input,
+  select,
+  textarea {
+    min-height: 50px;
+    padding: 13px;
+    font-size: 16px;
+    border-radius: 13px;
+  }
+
+  textarea {
+    min-height: 110px;
+  }
+
+  label.field {
+    font-size: 13px;
+    gap: 8px;
+    margin-bottom: 17px;
+  }
+
+  .formrow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .filters > :first-child {
+    grid-column: 1 / -1;
+  }
+
+  .filters select {
+    font-size: 14px;
+    padding-left: 10px;
+    padding-right: 8px;
+    min-width: 0;
+  }
+
+  .transaction {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 9px 11px;
+    align-items: start;
+    padding: 17px 0;
+  }
+
+  .tx-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 14px;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .transaction > .grow {
+    grid-column: 2;
+    min-width: 0;
+  }
+
+  .tx-title {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .tx-meta {
+    font-size: 11px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .tx-right {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 7px 10px;
+    flex-wrap: wrap;
+    text-align: left;
+  }
+
+  .tx-amount {
+    font-size: 14px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .tx-actions {
+    justify-content: flex-start;
+    gap: 3px;
+    margin-top: 0;
+  }
+
+  .tx-actions button {
+    min-height: 36px;
+    padding: 6px 8px;
+    font-size: 11px;
+    border-radius: 9px;
+    background: var(--surface2);
+  }
+
+  .breakdown .row {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .breakdown .row span {
+    max-width: 65%;
+    line-height: 1.45;
+  }
+
+  .breakdown .row strong {
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  .notice {
+    padding: 14px;
+    font-size: 12px;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+  }
+
+  .notice > .icon {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+
+  .chart {
+    height: 155px;
+  }
+
+  .chart-labels,
+  .chart-legend {
+    font-size: 11px;
+  }
+
+  .goal-numbers {
+    font-size: 26px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .goal-numbers small {
+    display: block;
+    margin-top: 3px;
+  }
+
+  .goal-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .goal-actions > :last-child:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  .goal-actions .btn {
+    width: 100%;
+  }
+
+  .result-amount {
+    font-size: clamp(29px, 8vw, 38px);
+    overflow-wrap: anywhere;
+  }
+
+  .scenario {
+    padding: 15px;
+  }
+
+  .event {
+    display: grid;
+    grid-template-columns: 43px minmax(0, 1fr);
+    gap: 8px 11px;
+  }
+
+  .datebox {
+    width: 43px;
+    grid-row: 1 / span 2;
+  }
+
+  .event > .grow {
+    min-width: 0;
+  }
+
+  .event > .grow > strong {
+    display: block;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+  }
+
+  .event > .tx-amount {
+    grid-column: 2;
+  }
+
+  .segment {
+    width: 100%;
+    max-width: none !important;
+    min-height: 48px;
+  }
+
+  .segment button {
+    min-height: 40px;
+    padding: 9px 10px;
+  }
+
+  .settingrow {
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .settingrow > div {
+    flex: 1 1 160px;
+    min-width: 0;
+  }
+
+  .settingrow strong {
+    overflow-wrap: anywhere;
+    font-size: 14px;
+  }
+
+  .settingrow p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .settingrow > .btn,
+  .settingrow > .link,
+  .settingrow > select {
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .settingrow select {
+    width: auto;
+    max-width: 100%;
+    min-height: 44px;
+    font-size: 15px;
+  }
+
+  .check {
+    align-items: flex-start;
+    min-height: 35px;
+    line-height: 1.6;
+  }
+
+  .check input {
+    width: 21px;
+    height: 21px;
+    min-height: 21px;
+    margin-top: 1px;
+  }
+
+  .empty {
+    padding: 29px 8px;
+  }
+
+  .empty p {
+    line-height: 1.65;
+  }
+
+  .catline {
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .catline > strong {
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  .catline > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .chatbox {
+    min-height: 210px;
+    max-height: 48dvh;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .message {
+    max-width: 95%;
+    padding: 14px 15px;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  #chatForm {
+    align-items: flex-end;
+    gap: 9px;
+  }
+
+  #chatForm input {
+    min-width: 0;
+    flex: 1;
+  }
+
+  #chatForm button {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .overlay {
+    padding-top: env(safe-area-inset-top);
+    align-items: flex-end;
+  }
+
+  .modal,
+  .modal.wide {
+    max-width: 100%;
+    max-height: calc(100dvh - env(safe-area-inset-top) - 12px);
+    padding:
+      23px
+      19px
+      calc(23px + env(safe-area-inset-bottom));
+    border-radius: 26px 26px 0 0;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modalhead {
+    align-items: center;
+    margin-bottom: 22px;
+  }
+
+  .modalhead h2 {
+    padding-right: 5px;
+  }
+
+  .modalhead .iconbtn {
+    width: 40px;
+    height: 40px;
+    border-radius: 13px;
+  }
+
+  .modalfoot {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
+    gap: 10px;
+    margin-top: 23px;
+  }
+
+  .modalfoot > .btn {
+    width: 100%;
+    padding: 12px 9px;
+    font-size: 13px;
+    line-height: 1.4;
+    white-space: normal;
+  }
+
+  .bottom-nav {
+    gap: 2px;
+    padding:
+      10px
+      max(7px, env(safe-area-inset-left))
+      calc(9px + env(safe-area-inset-bottom))
+      max(7px, env(safe-area-inset-right));
+    background: var(--surface);
+    box-shadow: 0 -8px 30px rgba(0,0,0,.12);
+  }
+
+  .bottom-nav button {
+    flex: 1;
+    min-width: 0;
+    min-height: 50px;
+    gap: 5px;
+    padding: 5px 3px;
+    font-size: 10px;
+    border-radius: 13px;
+  }
+
+  .bottom-nav button.active {
+    color: var(--iw-accent);
+    background: rgba(var(--iw-rgb), .075);
+  }
+
+  .bottom-nav .nav-add {
+    flex: 0 0 54px;
+    width: 54px;
+    min-height: 50px;
+    height: 50px;
+    margin: -21px 5px 0;
+    padding: 0;
+    border-radius: 18px;
+    background:
+      linear-gradient(
+        120deg,
+        var(--iw-accent-start),
+        var(--iw-accent-end)
+      );
+    color: var(--iw-on-accent);
+    box-shadow: 0 5px 24px rgba(var(--iw-rgb), .25);
+  }
+
+  .author {
+    padding: 19px 16px;
+    margin-top: 23px;
+  }
+
+  .author .btn {
+    min-height: 48px;
+    font-size: 13px;
+    white-space: normal;
+  }
+
+  .toast {
+    bottom: calc(94px + env(safe-area-inset-bottom));
+    width: max-content;
+    max-width: calc(100vw - 28px);
+    padding: 13px 16px;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .iw-color-grid {
+    gap: 9px;
+  }
+
+  .iw-color-choice {
+    min-height: 93px;
+  }
+}
+
+@media (max-width: 360px) {
+  .main {
+    padding-left: 11px;
+    padding-right: 11px;
+  }
+
+  .mobile-brand {
+    font-size: 18px;
+  }
+
+  .mobile-brand .logo {
+    width: 31px;
+    height: 31px;
+    font-size: 21px;
+  }
+
+  .top-actions {
+    gap: 6px;
+  }
+
+  .top-actions .iconbtn,
+  .top-actions .avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .card {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .sectionhead {
+    flex-wrap: wrap;
+  }
+
+  .sectionhead > div {
+    flex-basis: 180px;
+  }
+
+  .balance-number {
+    font-size: 31px;
+  }
+
+  .modalfoot {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .modalfoot > .btn.primary {
+    grid-row: 1;
+  }
+
+  .iw-color-choice {
+    font-size: 11px;
+  }
+}
+</style>
+
+<script>
+"use strict";
+
+/*
+  Дополнение к существующему InfoWallet.
+
+  Оригинальные операции, цели, платежи, правила, помощник,
+  экспорт, импорт и проверки остаются без удаления.
+
+  Новое поле state.menuColor сохраняется обычным commit().
+  Исходный validateState допускает дополнительные поля,
+  поэтому формат существующих сохранений не ломается.
+*/
+
+(function installInfoWalletAppearance() {
+  const palettes = {
+    purple: {
+      name: "Фиолетовый",
+      dark: {
+        accent: "#a88aff",
+        start: "#b195ff",
+        end: "#7852db",
+        rgb: "168,138,255",
+        on: "#ffffff",
+        balanceStart: "#453087",
+        balanceEnd: "#25204c",
+        balanceText: "#e1d6f5"
+      },
+      light: {
+        accent: "#7140ce",
+        start: "#986ee6",
+        end: "#7042c5",
+        rgb: "113,64,206",
+        on: "#ffffff",
+        balanceStart: "#655098",
+        balanceEnd: "#383055",
+        balanceText: "#e9dff7"
+      }
+    },
+
+    white: {
+      name: "Белый",
+      dark: {
+        accent: "#f0edf7",
+        start: "#f4f1fa",
+        end: "#c8c3d6",
+        rgb: "240,237,247",
+        on: "#302b3d",
+        balanceStart: "#52505e",
+        balanceEnd: "#292832",
+        balanceText: "#eeeaf5"
+      },
+      light: {
+        accent: "#726b83",
+        start: "#ffffff",
+        end: "#e3dfed",
+        rgb: "114,107,131",
+        on: "#393243",
+        balanceStart: "#676273",
+        balanceEnd: "#38333f",
+        balanceText: "#f0edf5"
+      }
+    },
+
+    gray: {
+      name: "Серый",
+      dark: {
+        accent: "#b6b4c4",
+        start: "#c4c1d0",
+        end: "#8d899f",
+        rgb: "182,180,196",
+        on: "#25222f",
+        balanceStart: "#44414f",
+        balanceEnd: "#25232d",
+        balanceText: "#dcd8e7"
+      },
+      light: {
+        accent: "#6d687e",
+        start: "#918b9f",
+        end: "#6b657b",
+        rgb: "109,104,126",
+        on: "#ffffff",
+        balanceStart: "#5c566b",
+        balanceEnd: "#332e40",
+        balanceText: "#e4dfed"
+      }
+    },
+
+    red: {
+      name: "Красный",
+      dark: {
+        accent: "#ed9eae",
+        start: "#efa7b5",
+        end: "#c9758d",
+        rgb: "237,158,174",
+        on: "#36202b",
+        balanceStart: "#733b57",
+        balanceEnd: "#382334",
+        balanceText: "#f0d1dc"
+      },
+      light: {
+        accent: "#ad5a75",
+        start: "#d38b9f",
+        end: "#b56580",
+        rgb: "173,90,117",
+        on: "#ffffff",
+        balanceStart: "#945b75",
+        balanceEnd: "#4c2c40",
+        balanceText: "#f6dce5"
+      }
+    },
+
+    yellow: {
+      name: "Жёлтый",
+      dark: {
+        accent: "#ead19c",
+        start: "#efdab0",
+        end: "#c7a16a",
+        rgb: "234,209,156",
+        on: "#342b22",
+        balanceStart: "#6d583d",
+        balanceEnd: "#362e2a",
+        balanceText: "#f0e0c6"
+      },
+      light: {
+        accent: "#99773b",
+        start: "#d3b475",
+        end: "#ad8a4c",
+        rgb: "153,119,59",
+        on: "#30271d",
+        balanceStart: "#8b734d",
+        balanceEnd: "#463c30",
+        balanceText: "#f7e9ce"
+      }
+    },
+
+    green: {
+      name: "Зелёный",
+      dark: {
+        accent: "#9bd2bc",
+        start: "#afdcc8",
+        end: "#72ae98",
+        rgb: "155,210,188",
+        on: "#20332c",
+        balanceStart: "#355d55",
+        balanceEnd: "#203331",
+        balanceText: "#d0e9df"
+      },
+      light: {
+        accent: "#4b8a72",
+        start: "#88bba5",
+        end: "#5b947c",
+        rgb: "75,138,114",
+        on: "#ffffff",
+        balanceStart: "#527f6f",
+        balanceEnd: "#2b443c",
+        balanceText: "#dbefe5"
+      }
+    }
+  };
+
+  function selectedColor() {
+    const value = state.menuColor;
+
+    return Object.prototype.hasOwnProperty.call(palettes, value)
+      ? value
+      : "purple";
+  }
+
+  function currentPalette() {
+    const variant = state.theme === "light" ? "light" : "dark";
+    return palettes[selectedColor()][variant];
+  }
+
+  function applyAppearance() {
+    const color = selectedColor();
+    const p = currentPalette();
+
+    /*
+      Переменные задаются на body, чтобы они имели приоритет
+      над первоначальными body.light и наследовались интерфейсом.
+    */
+    const variables = {
+      "--iw-accent": p.accent,
+      "--iw-accent-start": p.start,
+      "--iw-accent-end": p.end,
+      "--iw-rgb": p.rgb,
+      "--iw-on-accent": p.on,
+      "--iw-balance-start": p.balanceStart,
+      "--iw-balance-end": p.balanceEnd,
+      "--iw-balance-text": p.balanceText,
+
+      "--purple": p.accent,
+      "--accent": p.end,
+
+      "--line": "rgba(" + p.rgb + ", .15)"
+    };
+
+    Object.entries(variables).forEach(function(entry) {
+      document.body.style.setProperty(entry[0], entry[1]);
+    });
+
+    document.body.dataset.menuColor = color;
+
+    /*
+      В исходной функции chart() цвета записаны прямо в SVG.
+      Меняем только акцент графика, не затрагивая данные,
+      предупреждения и золотую линию защищённых средств.
+    */
+    document.querySelectorAll("#app svg.chart").forEach(function(svg) {
+      svg.querySelectorAll("stop").forEach(function(stop) {
+        if (stop.getAttribute("stop-color") === "#a88aff") {
+          stop.setAttribute("stop-color", p.accent);
+        }
+      });
+
+      svg.querySelectorAll("path[stroke]").forEach(function(path) {
+        if (path.getAttribute("stroke") === "#ad8bff") {
+          path.setAttribute("stroke", p.accent);
+        }
+      });
+
+      svg.querySelectorAll("circle[fill]").forEach(function(circle) {
+        if (circle.getAttribute("fill") === "#d4b4ff") {
+          circle.setAttribute("fill", p.start);
+        }
+      });
+    });
+
+    /*
+      Отдельная карточка симулятора на главной имеет inline-фон.
+      Добавляем класс, не меняя её содержимое и кнопки.
+    */
+    document.querySelectorAll("#app .card").forEach(function(card) {
+      const openSimulator = card.querySelector(
+        'button[onclick="go(\'simulator\')"]'
+      );
+
+      if (
+        page === "home" &&
+        openSimulator &&
+        card.querySelector(".goal-icon")
+      ) {
+        card.classList.add("iw-purchase-card");
+      }
+    });
+  }
+
+  function colorSettingsMarkup() {
+    const selected = selectedColor();
+    const variant = state.theme === "light" ? "light" : "dark";
+
+    const buttons = Object.entries(palettes).map(function(entry) {
+      const id = entry[0];
+      const item = entry[1];
+      const p = item[variant];
+      const active = id === selected;
+
+      return `
+        <button
+          type="button"
+          class="iw-color-choice"
+          data-iw-color="${id}"
+          aria-pressed="${active ? "true" : "false"}"
+          aria-label="${esc(item.name)} цвет интерфейса"
+          style="
+            --swatch-start:${p.start};
+            --swatch-end:${p.end};
+          "
+        >
+          <span class="iw-color-preview" aria-hidden="true"></span>
+          <span>${esc(item.name)}</span>
+          ${active
+            ? '<span class="iw-color-check" aria-hidden="true">✓</span>'
+            : ""}
+        </button>
+      `;
+    }).join("");
+
+    return `
+      <section
+        class="card iw-color-settings"
+        id="iwColorSettings"
+        aria-labelledby="iwColorTitle"
+      >
+        <div class="iw-color-heading">
+          <h2 id="iwColorTitle">Цвет интерфейса</h2>
+          <span class="badge">${esc(palettes[selected].name)}</span>
+        </div>
+
+        <p class="iw-color-description">
+          Мягкие оттенки меню, кнопок и акцентов.
+          Работают в тёмной и светлой теме.
+        </p>
+
+        <div
+          class="iw-color-grid"
+          role="group"
+          aria-label="Выберите цвет интерфейса"
+        >
+          ${buttons}
+        </div>
+
+        <div class="iw-theme-note">
+          ${icon("shield")}
+          <span>Выбор сохраняется на этом устройстве.</span>
+        </div>
+      </section>
+    `;
+  }
+
+  function injectColorSettings() {
+    if (page !== "settings") return;
+    if (document.getElementById("iwColorSettings")) return;
+
+    const firstColumn = document.querySelector(
+      "#app .page > .grid.two > .stack"
+    );
+
+    if (!firstColumn) return;
+
+    /*
+      Вставляем после профиля, сохраняя все остальные
+      первоначальные разделы настроек.
+    */
+    const profileCard = firstColumn.firstElementChild;
+
+    if (profileCard) {
+      profileCard.insertAdjacentHTML(
+        "afterend",
+        colorSettingsMarkup()
+      );
+    } else {
+      firstColumn.insertAdjacentHTML(
+        "afterbegin",
+        colorSettingsMarkup()
+      );
+    }
+  }
+
+  /*
+    Расширяем существующий render, а не заменяем представления.
+    Поэтому новые цвета применяются после навигации, импорта,
+    переключения темы и обновления из другой вкладки.
+  */
+  const originalRender = render;
+
+  render = function renderWithAppearance() {
+    originalRender();
+    applyAppearance();
+    injectColorSettings();
+  };
+
+  document.addEventListener("click", function(event) {
+    if (!(event.target instanceof Element)) return;
+
+    const button = event.target.closest("[data-iw-color]");
+    if (!button) return;
+
+    const id = button.dataset.iwColor;
+
+    if (!Object.prototype.hasOwnProperty.call(palettes, id)) return;
+    if (id === selectedColor()) return;
+
+    const scrollPosition = window.scrollY;
+
+    try {
+      transact(function(next) {
+        next.menuColor = id;
+      }, "Цвет интерфейса: " + palettes[id].name);
+
+      /*
+        Исходный commit перерисовывает приложение.
+        Возвращаем фокус на выбранную кнопку без прокрутки.
+      */
+      const selectedButton = document.querySelector(
+        '[data-iw-color="' + id + '"]'
+      );
+
+      if (selectedButton) {
+        selectedButton.focus({ preventScroll: true });
+      }
+
+      window.scrollTo({
+        top: scrollPosition,
+        behavior: "instant"
+      });
+    } catch (error) {
+      toast(error.message);
+    }
+  });
+
+  /* Применяем дополнение к уже открытой странице. */
+  render();
+})();
+</script>
+
 </body>
 </html>
